@@ -21,6 +21,8 @@ class Elevator {
 
     //timer property
     this.timer;
+
+    this.goesUp = [];
   }
 
   start() {
@@ -34,13 +36,19 @@ class Elevator {
   }
   update() {
     if (this.requests.length > 0) {
-      const allUp = this.requests.every(request => {
-        return request > this.floor;
+      this.requests.forEach((request,i) => {
+        if (request > this.floor && !this.goesUp.includes(request)) {
+          this.goesUp.push(request);
+        } else {
+          this.requests.splice(i,1);
+        }
       });
-      if (allUp) {
-        this.floorUp();
-        this.log();
-      } else {
+    }
+    if (this.goesUp.length > 0) {
+      this.floorUp();
+      this.log();
+    } else {
+      if (this.passengers.length > 0) {
         this.floorDown();
         this.log();
       }
@@ -70,6 +78,11 @@ class Elevator {
         this.requests.splice(i,1);
       }
     });
+    this.goesUp.forEach((request,i) => {
+      if(this.floor === request) {
+        this.goesUp.splice(i,1);
+      }
+    });
     this.requests.push(person.destinationFloor);
   }
   _passengersLeave(person,i) {
@@ -78,6 +91,11 @@ class Elevator {
     this.requests.forEach((request,i) => {
       if(this.floor === request) {
         this.requests.splice(i,1);
+      }
+    });
+    this.goesUp.forEach((request,i) => {
+      if(this.floor === request) {
+        this.goesUp.splice(i,1);
       }
     });
     if (this.passengers.length === 0) {

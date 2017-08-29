@@ -7,12 +7,14 @@ const Person = require('./person.js');
 const joao = new Person('Joao',4,7);
 const Camila = new Person('Camila',2,9);
 const Nizar = new Person('Nizar',1,10);
+const Rachelle = new Person('Rachelle', 6,2);
 
 const myElevator = new Elevator();
 
 myElevator.call(joao);
 myElevator.call(Camila);
 myElevator.call(Nizar);
+myElevator.call(Rachelle);
 
 myElevator.start();
 
